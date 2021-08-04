@@ -246,20 +246,25 @@ class _CalendarViewState extends State<CalendarView> {
           Container(
             color: Colors.blue,
             height: 300,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Center(
-                  child: Text(
-                      _selectedDay.toString().split(" ")[0].split("-")[0] +
-                          "년" +
-                          _selectedDay.toString().split(" ")[0].split("-")[1] +
-                          "월" +
-                          _selectedDay.toString().split(" ")[0].split("-")[2] +
-                          "일"),
-                ),
-                diaryBuilder()
-              ],
+            child: LimitedBox(
+              maxHeight: 100,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Center(
+                    child: Text(_selectedDay
+                            .toString()
+                            .split(" ")[0]
+                            .split("-")[0] +
+                        "년" +
+                        _selectedDay.toString().split(" ")[0].split("-")[1] +
+                        "월" +
+                        _selectedDay.toString().split(" ")[0].split("-")[2] +
+                        "일"),
+                  ),
+                  diaryBuilder()
+                ],
+              ),
             ),
           )
           // TextButton(
