@@ -68,21 +68,23 @@ class _CalendarViewState extends State<CalendarView> {
             itemCount: (projectSnap.data as List).length,
             itemBuilder: (context, index) {
               Diary diary = (projectSnap.data as List)[index];
-              return Container(
-                  height: 200,
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black, width: 5)),
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        diary.title,
-                        style: TextStyle(fontSize: 50),
-                      ),
-                      Text(diary.text),
-                      Text(diary.id.toString()),
-                      // Widget to display the list of project
-                    ],
-                  ));
+              return LimitedBox(
+                child: Container(
+                    height: 200,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black, width: 5)),
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          diary.title,
+                          style: TextStyle(fontSize: 50),
+                        ),
+                        Text(diary.text),
+                        Text(diary.id.toString()),
+                        // Widget to display the list of project
+                      ],
+                    )),
+              );
             },
           ));
         }
