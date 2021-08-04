@@ -238,7 +238,7 @@ class _CalendarViewState extends State<CalendarView> {
             eventLoader: _getEvnetsfromDay,
           ),
           Container(
-            color: Colors.white,
+            color: Colors.blue,
             height: 300,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
