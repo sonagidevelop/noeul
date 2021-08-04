@@ -11,8 +11,15 @@ import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:navstackexer/calendarView.dart';
 import 'subWidgets.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  initializeDateFormatting().then(
+    (_) => runApp(
+      const MyApp(),
+    ),
+  );
+}
 
 /// This is the main application widget.
 class MyApp extends StatelessWidget {

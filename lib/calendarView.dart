@@ -50,6 +50,7 @@ class _CalendarViewState extends State<CalendarView> {
   DateTime? _selectedDay = DateTime.now();
   DateTime? _rangeStart;
   DateTime? _rangeEnd;
+  DateTime dataToSend = DateTime.now();
 
   Future<List<Diary>> loadDiary() async {
     DBHelper sd = DBHelper();
@@ -93,17 +94,17 @@ class _CalendarViewState extends State<CalendarView> {
     );
   }
 
-  @override
-  void initState() {
-    selectedEvents = {};
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   selectedEvents = {};
+  //   super.initState();
+  // }
 
-  List<Event> _getEvnetsfromDay(DateTime date) {
-    //오류시 확인필요
+  // List<Event> _getEvnetsfromDay(DateTime date) {
+  //   //오류시 확인필요
 
-    return selectedEvents?[date] ?? [];
-  }
+  //   return selectedEvents?[date] ?? [];
+  // }
 
   // @override
   // void initState() {
@@ -140,7 +141,7 @@ class _CalendarViewState extends State<CalendarView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TableCalendar(
-            // locale: 'ko_KR',
+            locale: 'ko_KR',
             firstDay: DateTime.utc(2010, 10, 16),
             lastDay: DateTime.utc(2030, 3, 14),
             focusedDay: _focusedDay,
@@ -148,18 +149,22 @@ class _CalendarViewState extends State<CalendarView> {
             selectedDayPredicate: (day) {
               return isSameDay(_selectedDay, day);
             },
+            availableGestures: AvailableGestures.horizontalSwipe,
 
             //네비게이터위치
 
             onDaySelected: (selectedDay, focusedDay) {
               if (_selectedDay == selectedDay) {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => SecondPage()));
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => SecondPage(received: dataToSend)));
               }
               setState(() {
                 _selectedDay = selectedDay;
 
                 _focusedDay = focusedDay;
+                dataToSend = selectedDay;
               });
             },
             calendarFormat: _calendarFormat,
@@ -237,7 +242,6 @@ class _CalendarViewState extends State<CalendarView> {
             //     );
             //   }
             // }),
-            eventLoader: _getEvnetsfromDay,
           ),
           Container(
             color: Colors.blue,
@@ -282,7 +286,11 @@ class _CalendarViewState extends State<CalendarView> {
 //SecondPage
 
 class SecondPage extends StatefulWidget {
-  const SecondPage({Key? key}) : super(key: key);
+  const SecondPage({
+    Key? key,
+    required this.received,
+  }) : super(key: key);
+  final DateTime received;
 
   @override
   _SecondPageState createState() => _SecondPageState();
@@ -329,7 +337,6 @@ class _SecondPageState extends State<SecondPage> {
           Center(
             child: ElevatedButton(
               onPressed: () async {
-                Navigator.pop(context);
                 final dateValue =
                     _formkey.currentState?.fields['date']?.value.toString();
                 final titleValue =
@@ -343,6 +350,7 @@ class _SecondPageState extends State<SecondPage> {
                   titleValue,
                   textValue,
                 );
+                Navigator.pop(context);
               },
               child: Text("Save"),
             ),
@@ -415,7 +423,7 @@ class _SecondPageState extends State<SecondPage> {
                 // ),
                 FormBuilderDateTimePicker(
                   name: "date",
-                  initialValue: DateTime.now(),
+                  initialValue: widget.received,
                   fieldHintText: "Add Date",
                   inputType: InputType.date,
                   format: DateFormat('EEEE, dd MMMM, yyyy'),
